@@ -31,14 +31,15 @@ class SongsHandler {
     return response;
   }
 
-  async getSongsHandler() {
-    const songs = await this._service.getSongs();
-    return {
-      status: 'success',
-      data: {
-        songs,
-      },
-    };
+  async getSongsHandler(request, h) {
+      const { title, performer } = request.query;
+      const songs = await this._service.getSongs({ title, performer });
+      return {
+        status: 'success',
+        data: {
+          songs,
+        },
+      };
   }
 
   async getSongByIdHandler(request, h) {
@@ -75,15 +76,13 @@ class SongsHandler {
     try {
       this._validator.validateSongPayload(request.payload);
       const { id } = request.params;
-      // console.log(request.payload);
-      await this._service.editSongById(id, request.payload);
+      await this._service.putSongById(id, request.payload);
       // if you use return by default return 200 status code
       return {
         status: 'success',
         message: 'Mengubah lagu berdasarkan id lagu.',
       };
     } catch (error) {
-      console.log(error);
       if (error instanceof ClientError) {
         const response = h.response({
           status: 'fail',

@@ -40,12 +40,14 @@ class AlbumsHandler {
       response.code(200);
       return response;
     } catch (error) {
+      console.log(error);
       if (error instanceof ClientError) {
         const response = h.response({
           status: 'fail',
           message: error.message,
         });
         response.code(error.statusCode);
+        return response;
       }
       const response = h.response({
         status: 'fail',
@@ -58,8 +60,7 @@ class AlbumsHandler {
 
   async putAlbumByIdHandler(request, h) {
     try {
-      // TODO: Album Validator
-      // this._validator.validateAlbumPayload(request.payload);
+      this._validator.validateAlbumPayload(request.payload);
       const { id } = request.params;
       await this._service.putAlbumById(id, request.payload);
       // if you use return by default return 200 status code
@@ -94,7 +95,6 @@ class AlbumsHandler {
         message: 'Menghapus album berdasarkan id.',
       };
     } catch (error) {
-      // if you use return by default return 200 status code
       if (error instanceof ClientError) {
         const response = h.response({
           status: 'fail',

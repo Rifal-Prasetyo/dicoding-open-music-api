@@ -11,7 +11,7 @@ exports.shorthands = undefined;
 exports.up = (pgm) => {
   pgm.createTable('albums', {
     id: {
-      type: 'VARCHAR(20)',
+      type: 'VARCHAR(40)',
       primaryKey: true,
     },
     name: {
@@ -19,7 +19,7 @@ exports.up = (pgm) => {
       notNull: true,
     },
     year: {
-      type: 'TEXT',
+      type: 'INTEGER',
       notNull: true,
     },
     created_at: {
