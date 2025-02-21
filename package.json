@@ -16,6 +16,8 @@
   "description": "",
   "dependencies": {
     "@hapi/hapi": "^21.3.12",
+    "@hapi/jwt": "^3.2.0",
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
     "eslint": "^8.52.0",
     "eslint-config-airbnb-base": "^15.0.0",

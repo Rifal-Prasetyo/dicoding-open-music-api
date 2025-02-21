@@ -12,7 +12,7 @@ class SongsService {
   async addSong({
     title, year, genre, performer, duration, albumId,
   }) {
-    const id = "song-" + nanoid(16);
+    const id = `song-${nanoid(16)}`;
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
     const query = {
@@ -27,13 +27,12 @@ class SongsService {
     return result.rows[0].id;
   }
 
-  async getSongs({title, performer}) {
+  async getSongs({ title = '', performer = '' }) {
     const query = {
-      text: `SELECT * FROM songs WHERE title = $1 OR performer = $2`,
-      values: ["'%" + title  + "%'", "'%" + performer  + "%'"]
+      text: `SELECT * FROM songs WHERE title ILIKE '%${title}%'  OR performer ILIKE '%${performer}%}'`,
     };
     const result = await this._pool.query(query);
-    console.log(result);
+    // console.log(result);
     return result.rows.map(mapDBSongsToModel);
   }
 
@@ -50,11 +49,11 @@ class SongsService {
   }
 
   async putSongById(id, {
-    title, year, genre, performer, duration = undefined, albumId = undefined,
+    title, year, genre, performer, duration = undefined, albumId = 'default',
   }) {
     const updatedAt = new Date().toISOString();
     const query = {
-      text: `UPDATE songs SET title = $1, year = $2, genre = $3, performer = $4, duration = COALESCE($5, 0), album_id = COALESCE($6, 'Not Found'), updated_at = $7  WHERE id = $8 RETURNING id`,
+      text: 'UPDATE songs SET title = $1, year = $2, genre = $3, performer = $4, duration = COALESCE($5, 0), album_id = COALESCE($6, \'Not Found\'), updated_at = $7  WHERE id = $8 RETURNING id',
       values: [title, year, genre, performer, duration, albumId, updatedAt, id],
     };
     const result = await this._pool.query(query);

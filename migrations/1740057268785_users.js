@@ -9,31 +9,24 @@ exports.shorthands = undefined;
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-  pgm.createTable('albums', {
+  pgm.createTable('users', {
     id: {
-      type: 'VARCHAR(40)',
+      type: 'VARCHAR(50)',
       primaryKey: true,
     },
-    name: {
-      type: 'TEXT',
+    username: {
+      type: 'VARCHAR(60)',
       notNull: true,
     },
-    year: {
-      type: 'INTEGER',
+    password: {
+      type: 'VARCHAR(60)',
       notNull: true,
     },
-    created_at: {
-      type: 'TEXT',
-      notNull: true,
-    },
-    updated_at: {
+    fullname: {
       type: 'TEXT',
       notNull: true,
     },
   });
-
-  // membuat default album
-  pgm.sql("INSERT INTO albums VALUES('default', 'tidak dimasukkan album', 2000, NOW(), NOW())");
 };
 
 /**
@@ -42,5 +35,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-  pgm.dropTable('albums');
+  pgm.dropTable('users');
 };

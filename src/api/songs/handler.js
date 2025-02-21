@@ -31,15 +31,15 @@ class SongsHandler {
     return response;
   }
 
-  async getSongsHandler(request, h) {
-      const { title, performer } = request.query;
-      const songs = await this._service.getSongs({ title, performer });
-      return {
-        status: 'success',
-        data: {
-          songs,
-        },
-      };
+  async getSongsHandler(request) {
+    const { title, performer } = request.query;
+    const songs = await this._service.getSongs({ title, performer });
+    return {
+      status: 'success',
+      data: {
+        songs,
+      },
+    };
   }
 
   async getSongByIdHandler(request, h) {

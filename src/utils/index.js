@@ -1,18 +1,5 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable camelcase */
-const mapDBAlbumToModel = ({
-  id,
-  name,
-  year,
-  songs,
-  created_at,
-  updated_at,
-}) => ({
-  id,
-  name,
-  year,
-  songs: songs ? songs.map(mapDBSongsToModel) : []
-});
-
 const mapDBSongsToModel = ({
   id,
   title,
@@ -29,6 +16,19 @@ const mapDBSongsToModel = ({
   performer,
 });
 
+const mapDBAlbumToModel = ({
+  id,
+  name,
+  year,
+  songs,
+  created_at,
+  updated_at,
+}) => ({
+  id,
+  name,
+  year,
+  songs: songs ? songs.map(mapDBSongsToModel) : [],
+});
 
 const mapDBSongsDetailToModel = ({
   id,
@@ -50,8 +50,22 @@ const mapDBSongsDetailToModel = ({
   albumId,
 });
 
+const mapDBPlaylistToModel = ({
+  id,
+  name,
+  username,
+  owner,
+  created_at,
+  updated_at,
+}) => ({
+  id,
+  name,
+  username,
+});
+
 module.exports = {
   mapDBAlbumToModel,
   mapDBSongsToModel,
   mapDBSongsDetailToModel,
+  mapDBPlaylistToModel,
 };

@@ -9,33 +9,18 @@ exports.shorthands = undefined;
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-  pgm.createTable('songs', {
+  pgm.createTable('playlists', {
     id: {
-      type: 'VARCHAR(40)',
+      type: 'VARCHAR(50)',
       primaryKey: true,
     },
-    title: {
+    name: {
       type: 'TEXT',
       notNull: true,
     },
-    year: {
-      type: 'INTEGER',
+    owner: {
+      type: 'VARCHAR(50)',
       notNull: true,
-    },
-    genre: {
-      type: 'TEXT',
-      notNull: true,
-    },
-
-    performer: {
-      type: 'TEXT',
-      notNull: true,
-    },
-    duration: {
-      type: 'INTEGER',
-    },
-    album_id: {
-      type: 'TEXT',
     },
     created_at: {
       type: 'TEXT',
@@ -47,8 +32,8 @@ exports.up = (pgm) => {
     },
   });
 
-  // memberikan contraint foreign key pada kolom album_id terhadap kolom id dari tabel albums
-  pgm.addConstraint('songs', 'fk_songs.album_id_albums.id', 'FOREIGN KEY(album_id) REFERENCES albums(id) ON DELETE CASCADE');
+  // memberikan contraint foreign key pada owner terhadap kolom id dari tabel user
+  pgm.addConstraint('playlists', 'fk_playlists.owner_users.id', 'FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE');
 };
 
 /**
@@ -57,6 +42,7 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-  pgm.dropConstraint('songs', 'fk_songs.album_id_albums.id');
-  pgm.dropTable('songs');
+  // hapus contraints
+  pgm.dropConstraint('playlists', 'fk_playlists.owner_users.id');
+  pgm.dropTable('playlists');
 };
