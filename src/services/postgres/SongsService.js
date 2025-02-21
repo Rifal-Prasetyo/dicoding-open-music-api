@@ -43,7 +43,7 @@ class SongsService {
     };
     const result = await this._pool.query(query);
     if (!result.rows.length) {
-      throw new NotFoundError('id album tidak ditemukan');
+      throw new NotFoundError('id lagu tidak ditemukan');
     }
     return result.rows.map(mapDBSongsDetailToModel)[0];
   }

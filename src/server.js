@@ -37,10 +37,10 @@ const CollaborationsValidator = require('./validator/collaborations');
 
 const init = async () => {
   const albumsService = new AlbumsService();
-  const collaborationsService = new CollaborationsService();
-  const playlistsService = new PlaylistsService(collaborationsService);
-  const songsService = new SongsService();
   const usersService = new UsersService();
+  const collaborationsService = new CollaborationsService(usersService);
+  const songsService = new SongsService();
+  const playlistsService = new PlaylistsService(collaborationsService, songsService);
   const authenticationsService = new AuthenticationsService();
 
   // initalize server

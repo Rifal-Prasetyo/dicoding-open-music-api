@@ -3,8 +3,9 @@ const { nanoid } = require('nanoid');
 const InvariantError = require('../../exceptions/InvariantError');
 
 class CollaborationsService {
-  constructor() {
+  constructor(usersService) {
     this._pool = new Pool();
+    this._usersService = usersService;
   }
 
   async addCollaboration(playlistId, userId) {
@@ -42,6 +43,10 @@ class CollaborationsService {
     if (!result.rows.length) {
       throw new InvariantError('Kolaborasi gagal diverifikasi');
     }
+  }
+
+  async verifyUserById(userId) {
+    await this._usersService.getUserById(userId);
   }
 }
 
