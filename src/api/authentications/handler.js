@@ -1,3 +1,5 @@
+const autoBind = require('auto-bind');
+
 class AuthenticationHandler {
   constructor(authenticationsService, usersService, tokenManager, validator) {
     this._authenticationsService = authenticationsService;
@@ -5,8 +7,7 @@ class AuthenticationHandler {
     this._tokenManager = tokenManager;
     this._validator = validator;
 
-    this.postAuthenticationHandler = this.postAuthenticationHandler.bind(this);
-    this.deleteAuthenticationHandler = this.deleteAuthenticationHandler.bind(this);
+    autoBind(this);
   }
 
   async postAuthenticationHandler(request, h) {
@@ -28,6 +29,23 @@ class AuthenticationHandler {
     });
     response.code(201);
     return response;
+  }
+
+  async putAuthenticationHandler(request) {
+    this._validator.validatePutAuthenticationPayload(request.payload);
+
+    const { refreshToken } = request.payload;
+    await this._authenticationsService.verifyRefreshToken(refreshToken);
+    const { id } = this._tokenManager.verifyRefreshToken(refreshToken);
+
+    const accessToken = this._tokenManager.generateAccessToken({ id });
+    return {
+      status: 'success',
+      message: 'Access Token berhasil diperbarui',
+      data: {
+        accessToken,
+      },
+    };
   }
 
   async deleteAuthenticationHandler(request) {
