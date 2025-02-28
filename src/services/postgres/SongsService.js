@@ -14,10 +14,9 @@ class SongsService {
   }) {
     const id = `song-${nanoid(16)}`;
     const createdAt = new Date().toISOString();
-    const updatedAt = createdAt;
     const query = {
-      text: 'INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id',
-      values: [id, title, year, genre, performer, duration, albumId, createdAt, updatedAt],
+      text: 'INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7, $8, $8) RETURNING id',
+      values: [id, title, year, genre, performer, duration, albumId, createdAt],
     };
     // querying to database
     const result = await this._pool.query(query);
@@ -30,7 +29,7 @@ class SongsService {
   async getSongs({ title = null, performer = null }) {
     const query = {
       text: `
-    SELECT * FROM songs 
+    SELECT id, title, performer FROM songs 
     WHERE 
       (TRIM(title) ILIKE '%' || $1 || '%' OR $1 IS NULL OR $1 = '') 
       AND 

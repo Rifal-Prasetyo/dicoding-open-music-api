@@ -21,12 +21,14 @@ const mapDBAlbumToModel = ({
   name,
   year,
   songs,
+  cover,
   created_at,
   updated_at,
 }) => ({
   id,
   name,
   year,
+  coverUrl: cover || null,
   songs: songs ? songs.map(mapDBSongsToModel) : [],
 });
 

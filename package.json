@@ -16,7 +16,9 @@
   "description": "",
   "dependencies": {
     "@hapi/hapi": "^21.3.12",
+    "@hapi/inert": "^7.1.0",
     "@hapi/jwt": "^3.2.0",
+    "amqplib": "^0.10.5",
     "auto-bind": "4",
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.7",
@@ -27,6 +29,7 @@
     "nanoid": "^3.1.20",
     "node-pg-migrate": "^7.9.0",
     "nodemon": "^3.1.9",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "redis": "^4.7.0"
   }
 }
